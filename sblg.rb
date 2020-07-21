@@ -1,8 +1,8 @@
 class Sblg < Formula
 	desc "simple off-line blog utility"
 	homepage "https://kristaps.bsd.lv/sblg"
-	url "https://kristaps.bsd.lv/sblg/snapshots/sblg-0.4.17.tar.gz"
-	sha256 "7e63c06d62e92cf36e6c32cef970f08d68ad1152499533d9ad05f24c71fd1d39"
+	url "https://kristaps.bsd.lv/sblg/snapshots/sblg-0.5.9.tar.gz"
+	sha256 "e53895cc9814cf2fa8f5f9e7be6b8f060f242a0486303713d4de7aa6c2ba8551"
 	def install
 		system "./configure", "PREFIX=#{prefix}", "MANDIR=#{man}", "SHAREDIR=#{share}", "BINDIR=#{bin}"
 		system "make", "install"
