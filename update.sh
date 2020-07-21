@@ -5,13 +5,13 @@ do
 	project=`basename $f .rb`
 	url=https://kristaps.bsd.lv/$project/snapshots/$project
 	suffix=tar.gz
-	ftp $url.$suffix
-	if [ $? -eq 1 ]
+	curl -fO $url.$suffix
+	if [ $? -ne 0 ]
 	then
 		suffix=tgz
-		ftp $url.$suffix
+		curl -fO $url.$suffix
 	fi
-	if [ $? -eq 1 ]
+	if [ $? -ne 0 ]
 	then
 		echo "$project: cannot fetch" 1>&2
 		continue
@@ -29,7 +29,7 @@ do
 		rm -f $project.$suffix
 		continue
 	fi
-	sha=`sha256 -q $project.$suffix`
+	sha=`shasum -a 256 $project.$suffix | awk '{print $1}'`
 	echo "Current version: $version"
 	echo "Current SHA: $sha"
 	sed -e "s!^[ 	]*url .*!	url \"$url-$version.$suffix\"!" \
@@ -43,7 +43,7 @@ do
 		continue
 	fi
 	diff -u $f $f.bak
-	read choice?'Overwrite [y/n] (n)? '
+	read -p 'Overwrite [y/n] (n)? ' choice
 	if [ -z $choice -o $choice == 'n' ]
 	then
 		rm -f $f.bak
